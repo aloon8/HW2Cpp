@@ -12,6 +12,8 @@
 
 class Graph {
     std::map<shared_ptr<Station>,std::vector<Destination>> graph;
+
+    void addEdge();
 };
 
 

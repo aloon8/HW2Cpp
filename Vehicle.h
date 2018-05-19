@@ -14,9 +14,10 @@ using namespace std;
 
 class Vehicle {
 public:
-    typedef enum Color {Blue, Green , Red, Yellow};
+    typedef enum  {Blue, Green , Red, Yellow} Color;
 
     Vehicle(int stopTime, Color color);
+
     virtual void print() const = 0;
 
 

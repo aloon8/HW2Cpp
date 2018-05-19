@@ -12,10 +12,10 @@ using namespace std;
 
 class Intercity: public Station {
 public:
-    Intercity(const string& stationType, int transitTime, const string& stationName);
+    Intercity(StationType stationType, const string& stationName, int transitTime = 15);
 
-private:
-string name;
+    void print() const override;
+
 };
 
 

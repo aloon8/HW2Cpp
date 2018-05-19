@@ -6,8 +6,13 @@
 #define HW2_CENTRAL_H
 
 
-class Central {
+#include "Station.h"
 
+class Central : public Station{
+public:
+    Central(StationType stationType, const string& stationName, int transitTime = 5);
+
+    void print() const override;
 };
 
 

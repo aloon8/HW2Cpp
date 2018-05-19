@@ -6,7 +6,18 @@
 #define HW2_TRAM_H
 
 
-class Tram {
+#include "Vehicle.h"
+
+class Tram : public Vehicle{
+
+public:
+
+    Tram(int stopTime = 3);
+
+    void print() const override;
+
+private:
+
 
 };
 

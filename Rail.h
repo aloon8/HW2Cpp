@@ -6,7 +6,13 @@
 #define HW2_RAIL_H
 
 
-class Rail {
+#include "Vehicle.h"
+
+class Rail : public Vehicle{
+public:
+    Rail(int stopTime = 5);
+
+    virtual void print() const;
 
 };
 

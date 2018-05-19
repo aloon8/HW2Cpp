@@ -3,3 +3,9 @@
 //
 
 #include "Central.h"
+
+Central::Central(Station::StationType stationType, const string &stationName, int transitTime) : Station(stationType, stationName, transitTime) {}
+
+void Central::print() const {
+
+}

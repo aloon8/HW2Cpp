@@ -6,7 +6,14 @@
 #define HW2_STAD_H
 
 
-class Stad {
+#include "Station.h"
+
+class Stad : public Station{
+public:
+
+    Stad(StationType stationType, const string& stationName, int transitTime = 10);
+
+    void print() const override;
 
 };
 

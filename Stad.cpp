@@ -3,3 +3,10 @@
 //
 
 #include "Stad.h"
+
+Stad::Stad(Station::StationType stationType, const string &stationName, int transitTime) :
+        Station(stationType, stationName, transitTime) {}
+
+void Stad::print() const {
+
+}

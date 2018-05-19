@@ -6,7 +6,14 @@
 #define HW2_BUS_H
 
 
-class Bus {
+#include "Vehicle.h"
+
+class Bus : public Vehicle {
+
+public:
+    explicit Bus(int stopTime = 2);
+
+    void print() const override;
 
 };
 

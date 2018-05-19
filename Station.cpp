@@ -5,6 +5,18 @@
 
 #include "Station.h"
 
-Station::Station(const string& stationType, int transit) : transitTime(transit) {
+Station::Station(Station::StationType stationType, const string &stationName, int transitTime) :
+stationType(stationType), stationName(stationName), transitTime(transitTime){}
 
+Station::StationType Station::getStationType() const {
+    return stationType;
+}
+
+const string &Station::getStationName() const {
+    return stationName;
+}
+
+
+int Station::getTransitTime() const {
+    return transitTime;
 }

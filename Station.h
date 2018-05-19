@@ -6,23 +6,31 @@
 #ifndef HW2_STATION_H
 #define HW2_STATION_H
 
-struct Destinations {
-    Station station;
-    Color color;
-    int weight;
-};
 
 
 #include <iostream>
 using namespace std;
-typedef enum StationType { InterCity , Stad , Central};
+
 
 class Station {
 public:
-    Station(const string& stationType, int transitTime);
+    typedef enum  { InterCity , Stad , Central} StationType;
+
+    Station(StationType stationType,const string& stationName, int transitTime);
+
+    virtual void print() const = 0;
+
+    StationType getStationType() const;
+
+    const string &getStationName() const;
+
+    int getTransitTime() const;
 
 protected:
     StationType stationType;
+
+    string stationName;
+
     int transitTime;
 };
 

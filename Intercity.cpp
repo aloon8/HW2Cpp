@@ -4,6 +4,9 @@
 
 #include "Intercity.h"
 
-Intercity::Intercity(const string &stationType, int transitTime, const string &stationName) : Station(stationType,transitTime),name(stationName) {
+Intercity::Intercity(StationType stationType, const string &stationName, int transitTime) :
+Station(stationType,stationName,transitTime) {}
+
+void Intercity::print() const {
 
 }

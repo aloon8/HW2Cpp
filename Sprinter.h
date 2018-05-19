@@ -9,7 +9,11 @@
 #include "Vehicle.h"
 
 class Sprinter : public Vehicle{
-Sprinter(int stopTime = 4) : Vehicle(stopTime,Color::Yellow){}
+
+public:
+    explicit Sprinter(int stopTime = 4);
+
+    virtual void print() const;
 };
 
 

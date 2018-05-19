@@ -3,3 +3,11 @@
 //
 
 #include "Rail.h"
+
+
+/* Defining the rail's routes to be Red, and default stop time is 5 minutes */
+Rail::Rail(int stopTime) : Vehicle(stopTime, Color::Red) {}
+
+void Rail::print() const {
+
+}
