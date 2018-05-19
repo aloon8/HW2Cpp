@@ -9,7 +9,7 @@
 
 
 #include <iostream>
-
+using  namespace std;
 
 
 class Station {
@@ -18,7 +18,7 @@ public:
 
     Station(StationType stationType,const string& stationName, int transitTime);
 
-    virtual void print() const = 0;
+    virtual void print() const = 0; // Abstract Class
 
     StationType getStationType() const;
 

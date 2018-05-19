@@ -6,24 +6,27 @@
 #include "Bus.h"
 #include "Intercity.h"
 #include "Stad.h"
+#include "Graph.h"
+#include "Tram.h"
 
 int main() {
 
+    Graph graph;
+    shared_ptr<Station> station1(new Central(Station::Central,"Herzliya"));
+    shared_ptr<Station> station2(new Stad(Station::Central,"Ra'anana"));
+    shared_ptr<Station> station3(new Intercity(Station::Central,"Ramat Hasharon"));
 
-    std::vector<shared_ptr<Station>> vec;
+    shared_ptr<Vehicle> vehicle1(new Tram());
+    shared_ptr<Vehicle> vehicle2(new Bus());
 
-    for (int i = 0; i < 1; ++i) {
-        vec.emplace_back(std::move(new Intercity(Station::StationType::InterCity,"Metula")));
-        vec.emplace_back(new Central(Station::StationType::Central, "Kiryat Shmona"));
-        vec.emplace_back(new Stad(Station::StationType::Stad, "Kfar Yuval"));
-    }
+    Destination d1(station2,vehicle1,30);
+    Destination d2(station3,vehicle2,50);
 
-    auto begin = vec.begin();
-    auto end = vec.end();
-    while(begin != end) {
-        cout << (*begin)->getStationType() << endl;
-        begin++;
-    }
+    graph.addEdge(station1,d2);
+    graph.addEdge(station1,d1);
+
+    graph.print(station1);
+
 
     return 0;
 }
