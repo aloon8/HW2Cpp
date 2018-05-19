@@ -1,7 +1,5 @@
 #include <iostream>
-#include <vector>
 #include "Destination.h"
-#include "Station.h"
 #include "Central.h"
 #include "Bus.h"
 #include "Intercity.h"
@@ -26,7 +24,6 @@ int main() {
     graph.addEdge(station1,d1);
 
     graph.print(station1);
-
 
     return 0;
 }

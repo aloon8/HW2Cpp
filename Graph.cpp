@@ -4,29 +4,27 @@
 
 #include "Graph.h"
 
-
-
-
-void Graph::addEdge(shared_ptr<Station> src, Destination destination) {
+void Graph::addEdge(shared_ptr<Station> src, const Destination& destination) {
     if(graph.find(src) == graph.end()) {
-        graph.emplace(src, std::vector<Destination>());
+        shared_ptr<vector<Destination>> vect(new vector<Destination>);
+        graph.emplace(src, vect);
     }
     auto destinations = graph[src];
-    destinations.emplace_back(destination);
+    destinations->push_back(destination);
 
 }
 
 void Graph::print(shared_ptr<Station> src) {
     if(graph.find(src) == graph.end()) {
-        cout << "Source does not exist !!\n";
-
         return;
     }
     auto destinations = graph[src];
-    for (auto dest : destinations) {
-        cout << "In loop !!!";
-        cout << dest.getStation()->getStationName() << '\t' << dest.getWeight() << endl;
+    auto begin = destinations->begin();
+    auto  end = destinations->end();
+    while(begin != end) {
+        cout << (*begin).getStation()->getStationName() << '\t' << (*begin).getWeight() << endl;
+        begin++;
     }
-
 }
+
 
