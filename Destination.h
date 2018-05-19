@@ -8,11 +8,12 @@
 
 #include "Station.h"
 #include "Vehicle.h"
+#include <memory>
 
 
 class Destination {
 public:
-    Station station;
+    shared_ptr<Station> station;
     Vehicle vehicle;
     int weight;
 };

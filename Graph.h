@@ -11,7 +11,7 @@
 #include <map>
 
 class Graph {
-    std::map<Station,std::vector<Destination>> graph;
+    std::map<shared_ptr<Station>,std::vector<Destination>> graph;
 };
 
 
