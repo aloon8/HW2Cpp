@@ -13,7 +13,7 @@
 class Graph {
     std::map<shared_ptr<Station>,std::vector<Destination>> graph;
 
-    void addEdge();
+    void addEdge(shared_ptr<Station> src, shared_ptr<Station> destination);
 };
 
 
