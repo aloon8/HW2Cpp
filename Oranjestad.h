@@ -6,8 +6,20 @@
 #define HW2_ORANJESTAD_H
 
 
-class Oranjestad {
+#include "Graph.h"
+#include "Input.h"
 
+class Oranjestad {
+public:
+    Oranjestad(int num_of_arguments, char **strings_of_arguments);
+    void init(int num_of_arguments, char **strings_of_arguments);
+    const Graph &getGraph() const;
+    const Input & getInput() const;
+
+private:
+    Graph graph;
+    Input input;
+    std::ofstream outPutFile;
 
 };
 

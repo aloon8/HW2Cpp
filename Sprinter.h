@@ -11,9 +11,11 @@
 class Sprinter : public Vehicle{
 
 public:
-    explicit Sprinter(int stopTime = 4);
+    Sprinter();
 
     virtual void print() const;
+
+    static int sprinterTime;
 };
 
 

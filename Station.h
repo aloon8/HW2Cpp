@@ -16,7 +16,7 @@ class Station {
 public:
     typedef enum  { InterCity , Stad , Central} StationType;
 
-    Station(StationType stationType,const string& stationName, int transitTime);
+    Station(StationType stationType,const string& stationName);
 
     virtual void print() const = 0; // Abstract Class
 
@@ -24,14 +24,11 @@ public:
 
     const string &getStationName() const;
 
-    int getTransitTime() const;
 
 protected:
     StationType stationType;
 
     string stationName;
-
-    int transitTime;
 };
 
 

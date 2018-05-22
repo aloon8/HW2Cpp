@@ -11,9 +11,11 @@
 class Bus : public Vehicle {
 
 public:
-    explicit Bus(int stopTime = 2);
+    Bus();
 
-    void print() const override;
+    void print() const ;
+
+    static int busTime;
 
 };
 

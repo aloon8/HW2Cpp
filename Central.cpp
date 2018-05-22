@@ -4,8 +4,12 @@
 
 #include "Central.h"
 
-Central::Central(Station::StationType stationType, const string &stationName, int transitTime) : Station(stationType, stationName, transitTime) {}
+int Central::centralTime = 5;
+
+Central::Central(const string &stationName, Station::StationType stationType) : Station(stationType, stationName) {}
 
 void Central::print() const {
 
 }
+
+

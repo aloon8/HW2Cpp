@@ -4,4 +4,4 @@
 
 #include "Vehicle.h"
 
-Vehicle::Vehicle(int stopTime, Color colour) : stopTime(stopTime),color(color) {}
+Vehicle::Vehicle(Color colour) : color(color) {}

@@ -4,9 +4,12 @@
 
 #include "Stad.h"
 
-Stad::Stad(Station::StationType stationType, const string &stationName, int transitTime) :
-        Station(stationType, stationName, transitTime) {}
+int Stad::stadTime = 10;
+
+Stad::Stad(const string &stationName, Station::StationType stationType) :
+        Station(stationType, stationName) {}
 
 void Stad::print() const {
 
 }
+

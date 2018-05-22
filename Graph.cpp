@@ -4,27 +4,31 @@
 
 #include "Graph.h"
 
-void Graph::addEdge(shared_ptr<Station> src, const Destination& destination) {
-    if(graph.find(src) == graph.end()) {
-        shared_ptr<vector<Destination>> vect(new vector<Destination>);
-        graph.emplace(src, vect);
+void Graph::addEdge(shared_ptr<Station> src, shared_ptr<Destination> destination) {
+    if(map.find(src) == map.end()) {
+        auto vect(new vector<shared_ptr<Destination>>);
+        map.emplace(src, vect);
     }
-    auto destinations = graph[src];
-    destinations->push_back(destination);
+    auto destinations = map.at(src);
+    destinations->emplace_back(destination);
 
 }
 
+
+void Graph::print() const{
+    for(auto src : map){
+        for(auto it = src.second->begin() ; it != src.second->end(); it++ ){
+            cout << "Source : " <<src.first->getStationName() << "  Destination : " << (*it)->getStation()->getStationName()
+                                                                                    << "  " << " weight : " <<  (*it)->getWeight() << endl;
+        }
+    }
+}
+
 void Graph::print(shared_ptr<Station> src) {
-    if(graph.find(src) == graph.end()) {
+    if(map.find(src) == map.end()) {
         return;
     }
-    auto destinations = graph[src];
-    auto begin = destinations->begin();
-    auto  end = destinations->end();
-    while(begin != end) {
-        cout << (*begin).getStation()->getStationName() << '\t' << (*begin).getWeight() << endl;
-        begin++;
-    }
+
 }
 
 

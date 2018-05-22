@@ -10,7 +10,9 @@
 
 class Rail : public Vehicle{
 public:
-    Rail(int stopTime = 5);
+    Rail();
+
+    static int railTime;
 
     virtual void print() const;
 

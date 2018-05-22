@@ -12,7 +12,9 @@ using namespace std;
 
 class Intercity: public Station {
 public:
-    Intercity(StationType stationType, const string& stationName, int transitTime = 15);
+    Intercity(const string &stationName, StationType stationType = StationType::InterCity);
+
+    static int interCityTime;
 
     void print() const override;
 

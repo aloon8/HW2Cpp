@@ -12,7 +12,9 @@ class Tram : public Vehicle{
 
 public:
 
-    Tram(int stopTime = 3);
+    Tram();
+
+    static int tramTime;
 
     void print() const override;
 

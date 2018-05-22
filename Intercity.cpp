@@ -4,8 +4,11 @@
 
 #include "Intercity.h"
 
-Intercity::Intercity(StationType stationType, const string &stationName, int transitTime) :
-Station(stationType,stationName,transitTime) {}
+int Intercity::interCityTime = 15;
+
+
+Intercity::Intercity(const string &stationName, StationType stationType) :
+Station(stationType,stationName) {}
 
 void Intercity::print() const {
 

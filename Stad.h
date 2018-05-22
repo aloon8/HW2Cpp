@@ -8,10 +8,15 @@
 
 #include "Station.h"
 
-class Stad : public Station{
-public:
 
-    Stad(StationType stationType, const string& stationName, int transitTime = 10);
+
+class Stad : public Station{
+    //const static int transitTime;
+
+public:
+    static int stadTime;
+
+    Stad(const string& stationName, StationType stationType = StationType::Stad);
 
     void print() const override;
 

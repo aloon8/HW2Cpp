@@ -16,13 +16,12 @@ class Vehicle {
 public:
     typedef enum  {Blue, Green , Red, Yellow} Color;
 
-    Vehicle(int stopTime, Color color);
+    Vehicle(Color color);
 
     virtual void print() const = 0;
 
 
 protected:
-    int stopTime;
     Color color;
 };
 

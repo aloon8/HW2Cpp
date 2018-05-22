@@ -10,9 +10,11 @@
 
 class Central : public Station{
 public:
-    Central(StationType stationType, const string& stationName, int transitTime = 5);
+    Central(const string& stationName,StationType stationType = StationType::Central);
 
-    void print() const override;
+    static int centralTime;
+
+    void print() const ;
 };
 
 

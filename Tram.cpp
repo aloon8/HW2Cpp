@@ -5,8 +5,10 @@
 #include "Tram.h"
 
 
+int Tram::tramTime = 3;
+
 /* Defining the Tram's routes to be Green, and default stop time is 3 minutes */
-Tram::Tram(int stopTime) : Vehicle(stopTime, Color::Green) {}
+Tram::Tram() : Vehicle(Color::Green) {}
 
 void Tram::print() const {
 
