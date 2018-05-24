@@ -10,13 +10,15 @@
 
 using namespace std;
 
+
+/* A derived class of Station */
 class Intercity: public Station {
 public:
     Intercity(const string &stationName, StationType stationType = StationType::InterCity);
 
     static int interCityTime;
 
-    void print() const override;
+    void print() const;
 
 };
 

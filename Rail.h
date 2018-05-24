@@ -16,6 +16,8 @@ public:
 
     virtual void print() const;
 
+    virtual VehicleType getVehicleType();
+
 };
 
 

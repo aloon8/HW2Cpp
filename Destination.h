@@ -14,11 +14,17 @@
 class Destination {
 
 public:
-    Destination(shared_ptr<Station> station, shared_ptr<Vehicle> vehicle, int weight);
+    Destination(weak_ptr<Station> station, shared_ptr<Vehicle> vehicle, int weight,string name); // C'tor
 
-    const shared_ptr<Station> &getStation() const;
+public:
 
-    void setStation(const shared_ptr<Station> &station);
+    bool visited; // a data member that represents if the Node has been visited in DFS or not
+
+    /**  Getters And Setters **/
+
+    const weak_ptr<Station> &getStation() const;
+
+    void setStation(const weak_ptr<Station> &station);
 
     const shared_ptr<Vehicle> &getVehicle() const;
 
@@ -28,9 +34,18 @@ public:
 
     void setWeight(int weight);
 
+    const string &getStationName() const;
+
+
+
+    /** Data Members  **/
 private:
-    shared_ptr<Station> station;
-    shared_ptr<Vehicle> vehicle;
+    weak_ptr<Station> station; // describes the destination station
+
+    string stationName;
+
+    shared_ptr<Vehicle> vehicle; // the type of vehicle in the edge
+
     int weight;
 };
 

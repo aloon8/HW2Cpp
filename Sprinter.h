@@ -8,6 +8,12 @@
 
 #include "Vehicle.h"
 
+
+/* Derived class of vehicle -> derives all it's methods and data members
+ *
+ * describes the stop time of this vehicle and it's type
+ * */
+
 class Sprinter : public Vehicle{
 
 public:
@@ -15,7 +21,10 @@ public:
 
     virtual void print() const;
 
+    virtual VehicleType getVehicleType();
+
     static int sprinterTime;
+
 };
 
 

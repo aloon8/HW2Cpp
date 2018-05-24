@@ -8,6 +8,9 @@
 
 #include "Vehicle.h"
 
+
+
+/*Derived class of Vehicle, is a vehicle in the public transport */
 class Tram : public Vehicle{
 
 public:
@@ -16,7 +19,9 @@ public:
 
     static int tramTime;
 
-    void print() const override;
+    void print() const ;
+
+    virtual VehicleType getVehicleType();
 
 private:
 

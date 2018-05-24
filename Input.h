@@ -19,18 +19,26 @@
 class Input {
 public:
     Input();
+
     Input(const Input& rhs){};
+
     void insertToGraph(Graph& graph, const int num_of_arguments, char **strings_of_arguments);
+
     void insertToGraphOneLine(Graph& graph, const char* fileName);
-    Vehicle::Color checkNameOfFile(const char* fileName);
-    void LineToEdge(Graph& ,string&, Vehicle::Color);
+
+    Vehicle::VehicleType checkNameOfFile(const char* fileName);
+
+    void LineToEdge(Graph& ,string&, Vehicle::VehicleType);
+
     void ConfigureFile(const char* filename);
+
     int hashing(string&);
+
     class FileNameException{};
+
     class FileInputException{};
+
 private:
-    shared_ptr<Station> makeStation(const string &stationName);
-    shared_ptr<Destination> makeDestination(const string &stationName, int weight, Vehicle::Color color);
 
     unique_ptr<std::ofstream> outPutFile;
 };

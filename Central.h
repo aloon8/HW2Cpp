@@ -8,11 +8,15 @@
 
 #include "Station.h"
 
-class Central : public Station{
+
+/** This class ia s Station, it represents a type of station and has it's own default stop time **/
+
+
+class Central : public Station{ // inheriting from Station -> central is a type of station
 public:
     Central(const string& stationName,StationType stationType = StationType::Central);
 
-    static int centralTime;
+    static int centralTime; // default time
 
     void print() const ;
 };

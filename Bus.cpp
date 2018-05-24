@@ -4,13 +4,17 @@
 
 #include "Bus.h"
 
-int Bus::busTime = 2;
+int Bus::busTime = 2;//default stop time is 2 minutes
 
-/* Defining the bus's routes to be Blue, and default stop time is 2 minutes */
-Bus::Bus() : Vehicle(Color::Blue) {}
+
+Bus::Bus() : Vehicle(VehicleType::Bus) {} // inheriting from Vehicle
 
 
 void Bus::print() const {
     std::cout << "Printing bus\n";
+}
+
+Vehicle::VehicleType Bus::getVehicleType() { // returns bus type
+    return VehicleType::Bus;
 }
 

@@ -4,11 +4,14 @@
 
 #include "Sprinter.h"
 
-int Sprinter::sprinterTime = 4;
+int Sprinter::sprinterTime = 4;//default stop time is 4 minutes
 
-/* Defining the sprinter's routes to be Yellow, and default stop time is 4 minutes */
-Sprinter::Sprinter() : Vehicle(Color::Yellow){}
+Sprinter::Sprinter() : Vehicle(VehicleType::Sprinter){}
 
 void Sprinter::print() const {
     cout << "Printing Sprinter !!!\n";
+}
+
+Vehicle::VehicleType Sprinter::getVehicleType() {
+    return VehicleType::Sprinter;
 }

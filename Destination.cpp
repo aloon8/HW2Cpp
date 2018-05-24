@@ -1,19 +1,25 @@
 //
-// Created by Admin on 19/05/2018.
+// Created by Admin onstd::numeric_limits<int>::max() 19/05/2018.
 //
 
 #include "Destination.h"
 
 
-Destination::Destination(shared_ptr<Station> station, shared_ptr<Vehicle> vehicle, int weight) :
-        station(station), vehicle(vehicle), weight(weight) {}
+
+/* C'tor */
+Destination::Destination(weak_ptr<Station> station, shared_ptr<Vehicle> vehicle, int weight, string name) :
+        station(std::move(station)), vehicle(std::move(vehicle)), weight(weight) , stationName(name) , visited(false){}
 
 
-const shared_ptr<Station> &Destination::getStation() const {
+
+/**  Getters & Setters **/
+
+
+const weak_ptr<Station> &Destination::getStation() const {
     return station;
 }
 
-void Destination::setStation(const shared_ptr<Station> &station) {
+void Destination::setStation(const weak_ptr<Station> &station) {
     Destination::station = station;
 }
 
@@ -31,5 +37,9 @@ int Destination::getWeight() const {
 
 void Destination::setWeight(int weight) {
     Destination::weight = weight;
+}
+
+const string &Destination::getStationName() const {
+    return stationName;
 }
 

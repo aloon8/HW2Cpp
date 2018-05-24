@@ -7,7 +7,7 @@
 int Stad::stadTime = 10;
 
 Stad::Stad(const string &stationName, Station::StationType stationType) :
-        Station(stationType, stationName) {}
+        Station(stationType, stationName) {} // C'tor
 
 void Stad::print() const {
 

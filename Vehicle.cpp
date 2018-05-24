@@ -4,4 +4,4 @@
 
 #include "Vehicle.h"
 
-Vehicle::Vehicle(Color colour) : color(color) {}
+Vehicle::Vehicle(Vehicle::VehicleType vh) : vh(vh) {}

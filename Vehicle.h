@@ -11,18 +11,24 @@
 using namespace std;
 
 
-
+/** This is a Base Abstract Class that describes a type of Vehicle in Oranjestad city
+ * every vehicle in the city has a type described by the enum
+ *
+ *  All of it's derived classes have a static integer that describes it's stop time. the variable is static because it's sharable by
+ *  every instance of the inherit class
+ * **/
 class Vehicle {
 public:
-    typedef enum  {Blue, Green , Red, Yellow} Color;
+    typedef enum  {Bus, Sprinter , Rail, Tram} VehicleType;
 
-    Vehicle(Color color);
+    Vehicle(VehicleType);
 
     virtual void print() const = 0;
 
+    virtual VehicleType getVehicleType() = 0;
 
 protected:
-    Color color;
+    VehicleType vh;
 };
 
 

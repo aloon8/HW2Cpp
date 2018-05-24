@@ -5,11 +5,15 @@
 #include "Tram.h"
 
 
-int Tram::tramTime = 3;
+int Tram::tramTime = 3;//default stop time is 3 minutes
 
-/* Defining the Tram's routes to be Green, and default stop time is 3 minutes */
-Tram::Tram() : Vehicle(Color::Green) {}
+
+Tram::Tram() : Vehicle(Vehicle::VehicleType::Tram) {}
 
 void Tram::print() const {
 
+}
+
+Vehicle::VehicleType Tram::getVehicleType() { // returns a representation of itself in the enum
+    return VehicleType::Tram;
 }

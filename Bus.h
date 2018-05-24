@@ -8,6 +8,8 @@
 
 #include "Vehicle.h"
 
+/** This class is a Vehicle, describes us the default Stop time**/
+
 class Bus : public Vehicle {
 
 public:
@@ -16,6 +18,8 @@ public:
     void print() const ;
 
     static int busTime;
+
+    virtual VehicleType getVehicleType();
 
 };
 

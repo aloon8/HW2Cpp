@@ -5,7 +5,15 @@
 
 #include "Station.h"
 
-Station::Station(Station::StationType stationType, const string &stationName) :stationType(stationType), stationName(stationName){}
+
+
+
+Station::Station(Station::StationType stationType, const string &stationName) :
+        stationType(stationType), stationName(stationName), distance(std::numeric_limits<int>::max()){}
+
+
+/**  Getters & Setters  **/
+
 
 Station::StationType Station::getStationType() const {
     return stationType;
@@ -13,5 +21,13 @@ Station::StationType Station::getStationType() const {
 
 const string &Station::getStationName() const {
     return stationName;
+}
+
+int Station::getDistance() const {
+    return distance;
+}
+
+void Station::setDistance(int distance) {
+    Station::distance = distance;
 }
 

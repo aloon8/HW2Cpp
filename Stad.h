@@ -9,16 +9,15 @@
 #include "Station.h"
 
 
-
+//Derived class of Station -> get's all it's methods and data members
 class Stad : public Station{
-    //const static int transitTime;
 
 public:
     static int stadTime;
 
     Stad(const string& stationName, StationType stationType = StationType::Stad);
 
-    void print() const override;
+    void print() const;
 
 };
 
