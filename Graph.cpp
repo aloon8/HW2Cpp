@@ -297,6 +297,7 @@ void Graph::shortestPath(const string& src, const string& dest, Vehicle::Vehicle
             }
         }
     }
+    /*now the field distance handle the destination between src to dest*/
     auto it = findVertex(dest);
     cout << (*it)->getDistance() << endl;
 }
