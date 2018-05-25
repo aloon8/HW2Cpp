@@ -7,11 +7,9 @@
 int main(int argc, char* argv[]) {
     Oranjestad ob(argc, argv);
     Graph g = ob.getGraph();
-    g.print();
-    g.outbound("A");
-    cout << endl << endl << endl << endl;
-    Graph g2 = g.reversedGraph();
-    g2.outbound("A");
+    g.shortestPath("CSzuid","TLV", Vehicle::Bus);
+
+
 
     return 0;
 }

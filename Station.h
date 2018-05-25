@@ -28,7 +28,9 @@ public:
 
     virtual void print() const = 0; // Abstract Class -> pure virtual method
 
+    bool operator<(const Station&);
 
+    bool operator>(const Station&);
     /** Getters & Setters **/
 
     StationType getStationType() const;

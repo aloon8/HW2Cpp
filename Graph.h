@@ -13,6 +13,7 @@
 #include "Central.h"
 #include "Intercity.h"
 #include "Stad.h"
+#include "PriorityQueue.h"
 
 class Graph {
 
@@ -48,6 +49,8 @@ public:
     void returnVertexToStandard(); // a function that is runned after DFS,Dijkstra and re-initializes specific data members to standard
 
     Graph reversedGraph(); // returns a reversed graph
+
+    void shortestPath(const string&, const string&, Vehicle::VehicleType);
 };
 
 

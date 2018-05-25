@@ -8,7 +8,7 @@
 
 /* C'tor */
 Destination::Destination(weak_ptr<Station> station, shared_ptr<Vehicle> vehicle, int weight, string name) :
-        station(std::move(station)), vehicle(std::move(vehicle)), weight(weight) , stationName(name) , visited(false){}
+        station(std::move(station)), vehicle(std::move(vehicle)), weight(weight) , stationName(name) {}
 
 
 

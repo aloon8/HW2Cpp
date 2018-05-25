@@ -18,7 +18,7 @@ public:
 
 public:
 
-    bool visited; // a data member that represents if the Node has been visited in DFS or not
+    //bool visited; // a data member that represents if the Node has been visited in DFS or not
 
     /**  Getters And Setters **/
 

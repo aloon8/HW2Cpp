@@ -9,6 +9,7 @@
 #include "Sprinter.h"
 
 
+
 /* This function returns a new allocated Station */
 shared_ptr<Station> Graph::makeStation(const string& stationName){
     shared_ptr<Station> station(nullptr); // declared one time
@@ -24,10 +25,6 @@ shared_ptr<Station> Graph::makeStation(const string& stationName){
 
     return station;
 }
-
-
-
-
 
 
 /* This function adds a new edge to the graph*/
@@ -204,7 +201,7 @@ void Graph::DFS(weak_ptr<Station> source, Vehicle::VehicleType vehicleType, bool
     auto beg = vector->begin();
     auto end = vector->end();
     while(beg != end){ // running on all the neighbours recursively and visiting their neighbours ........
-        if((!(*beg)->visited) && (*beg)->getVehicle()->getVehicleType() == vehicleType){ // have to be on the specific Vehicle Type
+        if((!(*beg)->getStation().lock()->visited) && (*beg)->getVehicle()->getVehicleType() == vehicleType){ // have to be on the specific Vehicle Type
             DFS((*beg)->getStation(),vehicleType,printed,sourceName);
         }
         beg++;
@@ -271,3 +268,35 @@ return graph;
 }
 
 
+void Graph::shortestPath(const string& src, const string& dest, Vehicle::VehicleType veh) {
+
+    PriorityQueue pq;/* a minimum heap with priority of distance*/
+
+    auto sourceIterator = findVertex(src);
+    pq.push(*(*sourceIterator));/*push the first vertex it will the src vertex*/
+    (*sourceIterator)->setDistance(0);
+
+    while (!pq.empty()) {
+        Station &minPriority = pq.top();
+        minPriority.visited = true;
+        pq.pop();
+
+
+        auto vect = StationsMap.at(minPriority.getStationName());
+        /*the variable it run about all the neighbors of the vertex minPriority*/
+        for (auto it = vect->begin(); it != vect->end(); ++it) {
+            int weight = (*it)->getWeight();
+
+            /*  If there is shorted path to it through minPriority.*/
+            if ((*it)->getStation().lock()->getDistance() > minPriority.getDistance() + weight && !(*it)->getStation().lock()->visited &&
+                    (*it)->getVehicle()->getVehicleType() == veh){
+                /* Updating distance of it */
+                (*it)->getStation().lock()->setDistance(minPriority.getDistance() + weight);
+                Station &sta = *((*it)->getStation().lock());
+                pq.push(sta);
+            }
+        }
+    }
+    auto it = findVertex(dest);
+    cout << (*it)->getDistance() << endl;
+}

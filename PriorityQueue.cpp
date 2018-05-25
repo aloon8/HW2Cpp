@@ -1,0 +1,97 @@
+//
+// Created by Admin on 25/05/2018.
+//
+
+#include "PriorityQueue.h"
+
+
+
+void PriorityQueue::heapify_down(int i){
+        // get left and right child of node at index i
+        int left = LEFT(i);
+        int right = RIGHT(i);
+
+        int smallest = i;
+
+        // compare A[i] with its left and right child
+        // and find smallest value
+        if (left < size() && A[left] < A[i])
+            smallest = left;
+
+        if (right < size() && A[right] < A[smallest])
+            smallest = right;
+
+        // swap with child having lesser value and
+        // call heapify-down on the child
+        if (smallest != i) {
+            swap(A[i], A[smallest]);
+            heapify_down(smallest);
+        }
+}
+
+void PriorityQueue::heapify_up(int i) {
+        // check if node at index i and its parent violates
+        // the heap property
+        if (i && A[PARENT(i)] > A[i]) {
+            // swap the two if heap property is violated
+            swap(A[i], A[PARENT(i)]);
+
+            // call Heapify-up on the parent
+            heapify_up(PARENT(i));
+        }
+}
+
+
+void PriorityQueue::push(Station& key) {
+
+    // insert the new element to the end of the vector
+    A.push_back(&key);
+
+    // get element index and call heapify-up procedure
+    int index = size() - 1;
+    heapify_up(index);
+}
+
+void PriorityQueue::pop() {
+    try {
+        // if heap has no elements, throw an exception
+        if (size() == 0)
+            throw out_of_range("Vector<X>::at() : "
+                                       "index is out of range(Heap underflow)");
+
+        // replace the root of the heap with the last element
+        // of the vector
+        A[0] = A.back();
+        A.pop_back();
+
+        // call heapify-down on root node
+        heapify_down(0);
+    }
+        // catch and print the exception
+    catch (const out_of_range& oor) {
+        cout << "\n" << oor.what();
+    }
+}
+
+Station& PriorityQueue::top() {
+    try {
+        // if heap has no elements, throw an exception
+        if (size() == 0)
+            throw out_of_range("Vector<X>::at() : "
+                                       "index is out of range(Heap underflow)");
+
+        // else return the top (first) element
+        return *(A.at(0));	// or return A[0];
+    }
+        // catch and print the exception
+    catch (const out_of_range& oor) {
+        cout << "\n" << oor.what();
+    }
+}
+
+void PriorityQueue::swap(Station *x, Station *y) {
+    Station* temp;
+    temp=x;
+    x=y;
+    y=temp;
+}

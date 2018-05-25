@@ -31,3 +31,17 @@ void Station::setDistance(int distance) {
     Station::distance = distance;
 }
 
+bool Station::operator<(const Station& station) {
+    if(distance < station.distance){
+        return true;
+    }
+    return false;
+}
+
+bool Station::operator>(const Station& station) {
+    if(distance > station.distance){
+        return true;
+    }
+    return false;
+}
+

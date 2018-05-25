@@ -18,7 +18,7 @@ public:
 
     static int interCityTime;
 
-    void print() const;
+    virtual void print() const;
 
 };
 
