@@ -7,8 +7,8 @@
 
 
 /* C'tor */
-Destination::Destination(weak_ptr<Station> station, shared_ptr<Vehicle> vehicle, int weight, string name) :
-        station(std::move(station)), vehicle(std::move(vehicle)), weight(weight) , stationName(name) {}
+Destination::Destination(weak_ptr<Station> station, shared_ptr<Vehicle> vehicle, int weight,const string& name) :
+        station(std::move(station)), vehicle(std::move(vehicle)), weight(weight) , stationName(name), visitedForMulti(false) {}
 
 
 
@@ -41,5 +41,9 @@ void Destination::setWeight(int weight) {
 
 const string &Destination::getStationName() const {
     return stationName;
+}
+
+bool Destination::operator==(const weak_ptr<Destination> rhs) {
+    return stationName == rhs.lock()->stationName;
 }
 

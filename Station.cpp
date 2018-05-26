@@ -32,16 +32,10 @@ void Station::setDistance(int distance) {
 }
 
 bool Station::operator<(const Station& station) {
-    if(distance < station.distance){
-        return true;
-    }
-    return false;
+    return distance < station.distance;
 }
 
 bool Station::operator>(const Station& station) {
-    if(distance > station.distance){
-        return true;
-    }
-    return false;
+    return distance > station.distance;
 }
 

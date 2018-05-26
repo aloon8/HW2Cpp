@@ -15,10 +15,10 @@ void PriorityQueue::heapify_down(int i){
 
         // compare A[i] with its left and right child
         // and find smallest value
-        if (left < size() && A[left] < A[i])
+        if (left < size() && A[left].lock() < A[i].lock())
             smallest = left;
 
-        if (right < size() && A[right] < A[smallest])
+        if (right < size() && A[right].lock() < A[smallest].lock())
             smallest = right;
 
         // swap with child having lesser value and
@@ -32,7 +32,7 @@ void PriorityQueue::heapify_down(int i){
 void PriorityQueue::heapify_up(int i) {
         // check if node at index i and its parent violates
         // the heap property
-        if (i && A[PARENT(i)] > A[i]) {
+        if (i && A[PARENT(i)].lock() > A[i].lock()) {
             // swap the two if heap property is violated
             swap(A[i], A[PARENT(i)]);
 
@@ -42,10 +42,10 @@ void PriorityQueue::heapify_up(int i) {
 }
 
 
-void PriorityQueue::push(Station& key) {
+void PriorityQueue::push(weak_ptr<Station> key) {
 
     // insert the new element to the end of the vector
-    A.push_back(&key);
+    A.push_back(key);
 
     // get element index and call heapify-up procedure
     int index = size() - 1;
@@ -81,7 +81,7 @@ Station& PriorityQueue::top() {
                                        "index is out of range(Heap underflow)");
 
         // else return the top (first) element
-        return *(A.at(0));	// or return A[0];
+        return *(A.at(0).lock());	// or return A[0];
     }
         // catch and print the exception
     catch (const out_of_range& oor) {
@@ -89,9 +89,10 @@ Station& PriorityQueue::top() {
     }
 }
 
-void PriorityQueue::swap(Station *x, Station *y) {
-    Station* temp;
+void PriorityQueue::swap(weak_ptr<Station> x, weak_ptr<Station> y) {
+    weak_ptr<Station> temp;
     temp=x;
     x=y;
     y=temp;
 }
+

@@ -14,7 +14,7 @@
 class Destination {
 
 public:
-    Destination(weak_ptr<Station> station, shared_ptr<Vehicle> vehicle, int weight,string name); // C'tor
+    Destination(weak_ptr<Station> station, shared_ptr<Vehicle> vehicle, int weight,const string& name); // C'tor
 
 public:
 
@@ -34,12 +34,16 @@ public:
 
     void setWeight(int weight);
 
+    bool operator==(const weak_ptr<Destination> rhs);
+
     const string &getStationName() const;
 
-
-
     /** Data Members  **/
+
+    bool visitedForMulti;
+
 private:
+
     weak_ptr<Station> station; // describes the destination station
 
     string stationName;

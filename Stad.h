@@ -19,6 +19,8 @@ public:
 
     void print() const;
 
+    virtual int getTransitTime(){ return stadTime;}
+
 };
 
 

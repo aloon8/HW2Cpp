@@ -25,6 +25,8 @@ public:
 
     static int sprinterTime;
 
+    virtual int getStopTime(){return sprinterTime;}
+
 };
 
 

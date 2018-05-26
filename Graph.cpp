@@ -7,7 +7,7 @@
 #include "Rail.h"
 #include "Tram.h"
 #include "Sprinter.h"
-
+#include "Input.h"
 
 
 /* This function returns a new allocated Station */
@@ -72,8 +72,6 @@ void Graph::addEdge(const string &sourceString, const string &destinationString,
 
 
 
-
-
 /* returns an iterator to a specific vertex in the Set, if it doesn't exist the function returns iterator to the end */
 std::set<shared_ptr<Station>>::iterator Graph::findVertex(const string &lookingFor) {
     auto beg = Vertices.begin();
@@ -86,8 +84,6 @@ std::set<shared_ptr<Station>>::iterator Graph::findVertex(const string &lookingF
     }
     return beg;
 }
-
-
 
 
 
@@ -116,18 +112,17 @@ shared_ptr<Destination> Graph::makeDestination(weak_ptr<Station> destination, in
 
 
 /* this function prints all the edges in the graph */
-void Graph::print() const {
-
-    for(auto src : StationsMap){
-        auto vectorBegin = src.second->begin();
-        auto vectorEnd = src.second->end();
+void Graph::print(ofstream& of) const {
+    for(auto src = StationsMap.begin() ; src != StationsMap.end(); src++){
+        auto vectorBegin = src->second->begin();
+        auto vectorEnd = src->second->end();
         while(vectorBegin != vectorEnd){
-            cout << "Source : " << src.first << "    " << "Destination : " << (*vectorBegin)->getStationName() <<
+            of << "Source : " << src->first << "    " << "Destination : " << (*vectorBegin)->getStationName() <<
                  "    " << "Weight : " << (*vectorBegin)->getWeight() << "    ";
-            if((*vectorBegin)->getVehicle()->getVehicleType() == Vehicle::VehicleType::Tram) cout << "Tram\n";
-            else if((*vectorBegin)->getVehicle()->getVehicleType() == Vehicle::VehicleType::Rail) cout << "Rail\n";
-            else if((*vectorBegin)->getVehicle()->getVehicleType() == Vehicle::VehicleType::Bus) cout << "Bus\n";
-            else cout <<"Sprinter\n";
+            if((*vectorBegin)->getVehicle()->getVehicleType() == Vehicle::VehicleType::Tram) of << "Tram\n";
+            else if((*vectorBegin)->getVehicle()->getVehicleType() == Vehicle::VehicleType::Rail) of << "Rail\n";
+            else if((*vectorBegin)->getVehicle()->getVehicleType() == Vehicle::VehicleType::Bus) of << "Bus\n";
+            else of <<"Sprinter\n";
             vectorBegin++;
         }
     }
@@ -138,9 +133,7 @@ void Graph::print() const {
 void Graph::outbound(const string &sourceNode) {
     auto sourceIter = findVertex(sourceNode);
     if(sourceIter == Vertices.end()){ // the node does not exist
-        //throw ...
-        cout << "Vertex not found\n";
-        return;
+        throw Input::NodeDoesNotExistException(sourceNode);
     }
 
 
@@ -181,8 +174,6 @@ void Graph::outbound(const string &sourceNode) {
         cout << endl;
     else
         cout << "no outbound travel\n";
-
-
 
     returnVertexToStandard(); // returns all the vertices data members to be as before the DFS
 }
@@ -225,10 +216,6 @@ void Graph::returnVertexToStandard() {
 
 }
 
-
-
-
-
 /* This function returns a reversed graph, every direction of an edge is now reversed to a new graph
  *  the regular graph isn't changed. */
 Graph Graph::reversedGraph() {
@@ -268,12 +255,20 @@ return graph;
 }
 
 
-void Graph::shortestPath(const string& src, const string& dest, Vehicle::VehicleType veh) {
+int Graph::shortestPath(const string& src, const string& dest, Vehicle::VehicleType veh) {
 
     PriorityQueue pq;/* a minimum heap with priority of distance*/
+    int stopTime = 0;
 
     auto sourceIterator = findVertex(src);
-    pq.push(*(*sourceIterator));/*push the first vertex it will the src vertex*/
+    if(sourceIterator == Vertices.end()){
+        throw Input::NodeDoesNotExistException(src);
+    }
+    auto desIterator = findVertex(dest);
+    if(desIterator == Vertices.end()){
+        throw Input::NodeDoesNotExistException(dest);
+    }
+    pq.push(*sourceIterator);/*push the first vertex it will the src vertex*/
     (*sourceIterator)->setDistance(0);
 
     while (!pq.empty()) {
@@ -288,16 +283,105 @@ void Graph::shortestPath(const string& src, const string& dest, Vehicle::Vehicle
             int weight = (*it)->getWeight();
 
             /*  If there is shorted path to it through minPriority.*/
-            if ((*it)->getStation().lock()->getDistance() > minPriority.getDistance() + weight && !(*it)->getStation().lock()->visited &&
-                    (*it)->getVehicle()->getVehicleType() == veh){
+            if ((*it)->getStation().lock()->getDistance() > minPriority.getDistance() + weight + stopTime
+                && !(*it)->getStation().lock()->visited && (*it)->getVehicle()->getVehicleType() == veh){
                 /* Updating distance of it */
-                (*it)->getStation().lock()->setDistance(minPriority.getDistance() + weight);
-                Station &sta = *((*it)->getStation().lock());
+                stopTime = (*it)->getVehicle()->getStopTime();
+                (*it)->getStation().lock()->setDistance(minPriority.getDistance() + weight + stopTime);
+                auto sta = (*it)->getStation();
                 pq.push(sta);
             }
         }
     }
     /*now the field distance handle the destination between src to dest*/
-    auto it = findVertex(dest);
-    cout << (*it)->getDistance() << endl;
+    int distance = (*desIterator)->getDistance();
+
+    if(distance == std::numeric_limits<int>::max()) {
+        cout << "route unavailable" << endl;
+    }
+    else
+        cout << distance-stopTime << endl;
+    returnVertexToStandard();
 }
+
+void Graph::FindAllPaths(weak_ptr<Destination> source, weak_ptr<Destination> destination,
+                         std::vector<weak_ptr<Destination>> &path) {
+
+    source.lock()->visitedForMulti = true;
+    path.emplace_back(source);
+    if(*(source.lock()) == destination){
+        Routes.emplace_back(path);
+    } else {
+        auto tmpDestinationVectorOfCurrentSource = StationsMap.at(source.lock()->getStationName());
+        auto begin = tmpDestinationVectorOfCurrentSource->begin();
+        auto end = tmpDestinationVectorOfCurrentSource->end();
+        while(begin != end){
+            if(!(*begin)->visitedForMulti)
+                FindAllPaths((*begin), destination,path);
+            begin++;
+        }
+    }
+
+    path.pop_back();
+    source.lock()->visitedForMulti = false;
+}
+
+int Graph::calculateCostOfGivenPath(std::vector<weak_ptr<Destination>>& path) {
+    auto first = path.begin();
+    auto second = ++first;
+    auto end = path.end();
+    int sum = 0;
+    first--;bool flag = false;
+
+    while(second != end){
+        sum += (*second).lock()->getWeight();
+        if(flag) {
+            if ((*first).lock()->getVehicle()->getVehicleType() != (*second).lock()->getVehicle()->getVehicleType()) {
+                sum += (*first).lock()->getStation().lock()->getTransitTime();
+            }
+        }
+        flag = true;
+        first++;second++;
+    }
+    return sum;
+}
+
+void Graph::multiShortestPath(const string &srcString, const string &destString) {
+    int result(0), min = std::numeric_limits<int>::max(); // initializing min to infinity
+    auto srcStation = findVertex(srcString);
+    if(srcStation == Vertices.end()){
+        throw Input::NodeDoesNotExistException(srcString);
+    }
+    auto destStation = findVertex(destString);
+    if(destStation == Vertices.end() ) {
+        throw Input::NodeDoesNotExistException(destString);
+    }
+    weak_ptr<Station> tmp1(*srcStation);
+    weak_ptr<Station> tmp2(*destStation);
+    shared_ptr<Vehicle> tmpVehicle(new Bus());
+    shared_ptr<Destination> srcDestination(new Destination(tmp1, tmpVehicle,0,srcString));
+    shared_ptr<Destination> destDestination(new Destination(tmp2, tmpVehicle ,0,destString));
+    auto vec (new std::vector<weak_ptr<Destination>>);
+    FindAllPaths(srcDestination,destDestination, *vec);
+    auto beg = Routes.begin();
+    auto end = Routes.end();
+    while(beg != end ) {
+        result = calculateCostOfGivenPath((*beg));
+        if (result < min) min = result;
+        beg++;
+    }
+    cout <<"The minimum time between " << srcString << "to" << destString << "is: " << min << endl;
+}
+
+bool Graph::checkValidArgumentsForUni(const string &src, const string &dest) {
+    auto sourceIterator = findVertex(src);
+    if(sourceIterator == Vertices.end()){
+        throw Input::NodeDoesNotExistException(src);
+    }
+    auto desIterator = findVertex(dest);
+    if(desIterator == Vertices.end()){
+        throw Input::NodeDoesNotExistException(dest);
+    }
+    return true;
+}
+

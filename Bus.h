@@ -21,6 +21,7 @@ public:
 
     virtual VehicleType getVehicleType();
 
+    virtual int getStopTime(){return busTime;}
 };
 
 

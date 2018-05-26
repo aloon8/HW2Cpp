@@ -20,6 +20,8 @@ public:
 
     virtual void print() const;
 
+    virtual int getTransitTime(){ return interCityTime;}
+
 };
 
 

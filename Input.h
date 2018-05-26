@@ -34,13 +34,30 @@ public:
 
     int hashing(string&);
 
+    ofstream& getOutPutFile() const {
+        return *outPutFile;
+    }
+    /*  Exceptions classes*/
+
+    class CommandNotFoundException{};
+
+    class NumberOfArgumentsException{};
+
     class FileNameException{};
 
-    class FileInputException{};
+    class FileInputException : public exception{};
+
+    class NodeDoesNotExistException : public exception{
+        string name;
+    public:
+        NodeDoesNotExistException(const string& name){this->name = name; }
+        virtual const char* what(){return "does not exist in the current network";}
+        const string& getName()const{ return name;}
+    };
 
 private:
-
     unique_ptr<std::ofstream> outPutFile;
+
 };
 
 

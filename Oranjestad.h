@@ -8,6 +8,7 @@
 
 #include "Graph.h"
 #include "Input.h"
+#include <iterator>
 
 
 
@@ -24,6 +25,7 @@ public:
 
     void inbound(const string& sourceNode); // prints all the nodes that can reach the source node
 
+    void run();
 
     /** Getters and Setters **/
 
@@ -36,7 +38,6 @@ private:
 
     Input input; // Manages the input
 
-    std::ofstream outPutFile;
 
 };
 

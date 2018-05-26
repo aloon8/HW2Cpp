@@ -14,22 +14,31 @@ Input::Input() {
 
 }
 
+bool globalFlagForValidInputFile = false;
+
 void Input::insertToGraph(Graph& graph, const int num_of_arguments, char **strings_of_arguments) {
     int i = 2;
     for( ; i<num_of_arguments && strcmp(strings_of_arguments[i],"-c") && strcmp(strings_of_arguments[i],"-o"); i++){
         insertToGraphOneLine(graph,strings_of_arguments[i]);
     }
+    if(!globalFlagForValidInputFile) {
+        cerr << "Invalid Input Files \n";
+        exit(1);
+    }
     if(i < num_of_arguments) {
-        if (strcmp(strings_of_arguments[i], "-c")) {
+        if (!strcmp(strings_of_arguments[i], "-c")) {
             i++;
-            ConfigureFile(strings_of_arguments[i++]);
+            try {
+                ConfigureFile(strings_of_arguments[i++]);
+            }catch(FileInputException& e){
+                cerr << "file configuration does not good" << endl;
+            }
         }
     }
-    if ( i < num_of_arguments && strcmp(strings_of_arguments[i],"-o"))
-        outPutFile =unique_ptr<std::ofstream>(new ofstream(strings_of_arguments[++i]));
+    if ( i < num_of_arguments && !strcmp(strings_of_arguments[i],"-o"))
+        outPutFile = unique_ptr<std::ofstream>(new ofstream(strings_of_arguments[++i]));
     else
-        outPutFile = unique_ptr<std::ofstream>( new ofstream("output.dat")); // default
-
+        outPutFile = unique_ptr<std::ofstream>(new ofstream("output.dat")); // default
 }
 
 int Input::hashing(string& name){
@@ -44,7 +53,7 @@ int Input::hashing(string& name){
 
 void Input::ConfigureFile(const char *filename) {
     ifstream file = ifstream(filename);
-    string line,name,intString;
+    string line,name;
     int time;
     enum { BUS = 330 ,RAIL = 424 , TRAM = 436 , SPRINTER = 887 , STAD = 428 , CENTRAL = 745 , INTERCITY = 987};
 
@@ -53,120 +62,75 @@ void Input::ConfigureFile(const char *filename) {
         name = "";
         ss >> name;
         time = 0;
-        intString = "";
 
         switch( hashing(name) ) {
 
 
             case BUS:
-                ss >> intString;
-                if(isdigit(atoi(intString.c_str()))) // checking that input is numbers
-                    time = atoi(intString.c_str());
-                else
+                if(!(ss >> time)) // checking that input is numbers
                     throw FileInputException(); // second place is not a number
                 if(name != "bus" || time < 0)
                     throw FileInputException(); //
                 Bus::busTime = time;
-                if(ss.str().empty()) // checks number of arguments
-                    break;
-                else
-                    throw FileInputException(); // more than 2 arguments in line
+                break;
 
 
             case RAIL:
-                ss >> intString;
-                if(isdigit(atoi(intString.c_str()))) // checking that input is numbers
-                    time = atoi(intString.c_str());
-                else
+                if(!(ss >> time)) // checking that input is numbers
                     throw FileInputException(); // second place is not a number
                 if(name != "rail" || time < 0)
-                    throw FileInputException(); //
+                    throw FileInputException();
+
                 Rail::railTime = time;
-                if(ss.str().empty()) // checks number of arguments
-                    break;
-                else
-                    throw FileInputException(); // more than 2 arguments in line
+                break;
 
 
             case TRAM:
-                ss >> intString;
-                if(isdigit(atoi(intString.c_str()))) // checking that input is numbers
-                    time = atoi(intString.c_str());
-                else
+                if(!(ss >> time)) // checking that input is numbers
                     throw FileInputException(); // second place is not a number
                 if(name != "tram" || time < 0)
                     throw FileInputException(); //
                 Tram::tramTime = time;
-                if(ss.str().empty()) // checks number of arguments
-                    break;
-                else
-                    throw FileInputException(); // more than 2 arguments in line
+                break;
 
 
             case SPRINTER:
-                ss >> intString;
-                if(isdigit(atoi(intString.c_str()))) // checking that input is numbers
-                    time = atoi(intString.c_str());
-                else
+                if(!(ss >> time)) // checking that input is numbers
                     throw FileInputException(); // second place is not a number
                 if(name != "sprinter" || time < 0)
                     throw FileInputException(); //
                 Sprinter::sprinterTime = time;
-                if(ss.str().empty()) // checks number of arguments
-                    break;
-                else
-                    throw FileInputException(); // more than 2 arguments in line
+                break;
 
 
             case STAD:
-                ss >> intString;
-                if(isdigit(atoi(intString.c_str()))) // checking that input is numbers
-                    time = atoi(intString.c_str());
-                else
+                if(!(ss >> time)) // checking that input is numbers
                     throw FileInputException(); // second place is not a number
                 if(name != "stad" || time < 0)
                     throw FileInputException(); //
                 Stad::stadTime = time;
-                if(ss.str().empty()) // checks number of arguments
-                    break;
-                else
-                    throw FileInputException(); // more than 2 arguments in line
+                break;
 
 
             case CENTRAL:
-                ss >> intString;
-                if(isdigit(atoi(intString.c_str()))) // checking that input is numbers
-                    time = atoi(intString.c_str());
-                else
+                if(!(ss >> time)) // checking that input is numbers
                     throw FileInputException(); // second place is not a number
                 if(name != "central" || time < 0)
                     throw FileInputException(); //
                 Central::centralTime = time;
-                if(ss.str().empty()) // checks number of arguments
-                    break;
-                else
-                    throw FileInputException(); // more than 2 arguments in line
-
+                break;
 
             case INTERCITY:
-                ss >> intString;
-                if(isdigit(atoi(intString.c_str()))) // checking that input is numbers
-                    time = atoi(intString.c_str());
-                else
+                if(!(ss >> time)) // checking that input is numbers
                     throw FileInputException(); // second place is not a number
                 if(name != "intercity" || time < 0)
                     throw FileInputException(); //
                 Intercity::interCityTime = time;
-                if(ss.str().empty()) // checks number of arguments
-                    break;
-                else
-                    throw FileInputException(); // more than 2 arguments in line
+                break;
         }//switch
     } // while
 
 }
-
-
 
 
 void Input::insertToGraphOneLine(Graph &graph, const char *fileName) {
@@ -177,18 +141,22 @@ void Input::insertToGraphOneLine(Graph &graph, const char *fileName) {
         inputFile.open(fileName);
 
     }catch (FileNameException& e){
-        cout << "Problem with file name\n";
+        cerr << "Problem with file name\n";
         return;
     }
-    if(!inputFile.is_open())
-        cout << "File is not open\n";
+    if(!inputFile.is_open()) {
+        cerr << "ERROR opening the specified file." << endl;
+        return;
+    }
     string line;
     while(getline(inputFile,line))
         try{
             LineToEdge(graph,line,vehicleType);
         }catch(FileInputException& e){
-            cout << "the line in the file isn't good" << endl;
+            cerr << "Wrong input in file" << endl;
+            exit(1);
         }
+    globalFlagForValidInputFile = true;
 }
 
 void Input::LineToEdge(Graph &graph, string &line, Vehicle::VehicleType vehicleType) {
@@ -197,11 +165,13 @@ void Input::LineToEdge(Graph &graph, string &line, Vehicle::VehicleType vehicleT
     int weight;
     ss >> src;
     ss >> dest;
-    ss >> weight;
+    if(src.length() > 16 || dest.length() > 16)
+        throw FileInputException();
+    if(!(ss >> weight) && weight < 0){
+        throw FileInputException();
+    }
     graph.addEdge(src,dest,vehicleType,weight);
 }
-
-
 
 
 Vehicle::VehicleType Input::checkNameOfFile(const char *fileName) {
@@ -219,6 +189,7 @@ Vehicle::VehicleType Input::checkNameOfFile(const char *fileName) {
         return Vehicle::VehicleType::Bus;
     } else throw FileNameException();
 }
+
 
 
 

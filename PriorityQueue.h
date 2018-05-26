@@ -10,6 +10,7 @@
 #include "Station.h"
 
 #include <vector>
+#include <memory>
 using namespace std;
 
 // Data structure for Min Heap
@@ -17,7 +18,7 @@ class PriorityQueue
 {
 private:
     // vector to store heap elements
-    vector<Station*> A;
+    vector<weak_ptr<Station>> A;
 
     // return parent of A[i]
     // don't call this function if it is already a root node
@@ -65,7 +66,7 @@ public:
 
     // insert key into the heap
 
-    void push(Station &key);
+    void push(weak_ptr<Station> key);
 
     // function to remove element with highest priority (present at root)
     void pop();
@@ -73,7 +74,7 @@ public:
     // function to return element with highest priority (present at root)
     Station& top();
 
-    void swap(Station *x, Station *y);
+    void swap(weak_ptr<Station>x, weak_ptr<Station> y);
 };
 
 

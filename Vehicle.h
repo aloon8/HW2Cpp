@@ -27,6 +27,8 @@ public:
 
     virtual VehicleType getVehicleType() = 0;
 
+    virtual int getStopTime()=0;
+
 protected:
     VehicleType vh;
 };

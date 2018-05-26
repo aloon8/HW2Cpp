@@ -41,6 +41,8 @@ public:
 
     void setDistance(int distance);
 
+    virtual int getTransitTime()=0;
+
 
 protected:
     StationType stationType;

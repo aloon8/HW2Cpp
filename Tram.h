@@ -23,6 +23,8 @@ public:
 
     virtual VehicleType getVehicleType();
 
+    virtual int getStopTime(){return tramTime;}
+
 private:
 
 

@@ -8,6 +8,7 @@
 
 #include "Destination.h"
 #include <vector>
+#include <limits>
 #include <map>
 #include <set>
 #include "Central.h"
@@ -27,6 +28,11 @@ public:
     /* this is a set of vertices -> every Vertex has to be unique */
     std::set<shared_ptr<Station>> Vertices;
 
+    /* A vector that every element in it is a route between two nodes
+     * every element is another vector that has all the destinations in the route
+     * */
+    std::vector<std::vector<weak_ptr<Destination>>> Routes;
+
 
     /** Functions **/
 
@@ -35,7 +41,7 @@ public:
     //with a given string,weight and Vehicle returns an allocated Destination
     shared_ptr<Destination> makeDestination(weak_ptr<Station> destination, int weight, Vehicle::VehicleType,string);
 
-    void print() const; // prints all the Edges in the Graph
+    void print(ofstream& of) const; // prints all the Edges in the Graph
 
     void outbound(const string& sourceNode); // returns all the Vertices a given Station can reach in the graph
 
@@ -50,7 +56,16 @@ public:
 
     Graph reversedGraph(); // returns a reversed graph
 
-    void shortestPath(const string&, const string&, Vehicle::VehicleType);
+    int shortestPath(const string&, const string&, Vehicle::VehicleType);//Dijkstra's algorithm of finding shortest path between 2 nodes
+
+    /*This function will find all the paths in the graph between 2 nodes*/
+    void FindAllPaths(weak_ptr<Destination> source, weak_ptr<Destination> destination, std::vector<weak_ptr<Destination>>& path);
+
+    int calculateCostOfGivenPath(std::vector<weak_ptr<Destination>>&);
+
+    void multiShortestPath(const string& src, const string& dest);
+
+    bool checkValidArgumentsForUni(const string& src, const string& dest);
 };
 
 

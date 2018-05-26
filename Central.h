@@ -19,6 +19,8 @@ public:
     static int centralTime; // default time
 
     void print() const ;
+
+    virtual int getTransitTime(){ return centralTime;}
 };
 
 
